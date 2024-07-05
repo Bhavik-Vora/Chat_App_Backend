@@ -1,5 +1,3 @@
-// constants/config.js
-
 export const allowedOrigins = [
   'http://localhost:5173', 
   'http://localhost:8080',
@@ -24,4 +22,8 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-export { corsOptions };
+
+const CHATTU_TOKEN = "chattu-token";
+
+export { corsOptions, CHATTU_TOKEN };
+
