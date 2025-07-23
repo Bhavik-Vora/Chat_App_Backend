@@ -14,7 +14,7 @@ export const cookieOptions = {
 
 const connectDB = async () => {
     try {
-        await mongoose.connect("mongodb+srv://testing:testing@777@webchat.0cnh0.mongodb.net/");
+        await mongoose.connect("mongodb+srv://testing:dTfMEXe2vltooc1D@webchat.0cnh0.mongodb.net/");
         console.log("Connected to MongoDB");
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
