@@ -7,10 +7,11 @@ import { Request } from "../models/requestSchema.js";
 import { User } from "../models/userSchema.js";
 import { cookieOptions, emitEvent, sendToken, uploadFilesToCloudinary} from "../utils/features.js";
 import { ErrorHandler } from "../utils/utility.js";
+import bcrypt from "bcryptjs/dist/bcrypt.js";
 
 export const newUser = TryCatch(async (req, res, next) => {
   const { name, username, password, bio } = req.body;
-
+  const modifiedPass =  await bcrypt.hash(password, 10);
   const file = req.file;
 
   if (!file) return next(new ErrorHandler("Please Upload Avatar"));
@@ -26,7 +27,7 @@ export const newUser = TryCatch(async (req, res, next) => {
     name,
     bio,
     username,
-    password,
+    password:modifiedPass,
     avatar,
   });
 
@@ -35,14 +36,14 @@ export const newUser = TryCatch(async (req, res, next) => {
 
 export const login = TryCatch(async (req, res, next) => {
   const { username, password } = req.body;
-
+  console.log(username, password);
   const user = await User.findOne({ username }).select("+password");
-
+// console.log(user);
   if (!user) return next(new ErrorHandler("Invalid Username or Password", 404));
 
   const isMatch = await bcryptjs.compare(password, user.password);
 
-  if (!isMatch)
+    if (!isMatch)
     return next(new ErrorHandler("Invalid Username or Password", 404));
 
   sendToken(res, user, 200, `Welcome Back, ${user.name}`);
